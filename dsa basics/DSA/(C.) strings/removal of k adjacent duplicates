@@ -1,0 +1,34 @@
+leetcode- 1209
+
+stack.push();
+vecor.push_back();
+string.push_back();
+
+result.append(count,character); // it appends 'character' 'count' times to the result string.
+like(c,3)-> "ccc"
+
+class Solution {
+public:
+    string removeDuplicates(string s, int k) {
+        string result="";
+        stack<pair<char,int>> st;
+        for(int i=0;i<s.size();i++){
+            if(!st.empty() && st.top().first==s[i]){
+                st.top().second++;
+                if(st.top().second==k){
+                    st.pop();
+                }
+            }
+           else{
+            st.push({s[i],1});
+           }
+        }
+         while(!st.empty()){
+            result.append(st.top().second,st.top().first);
+            st.pop();
+            
+         }
+         reverse(result.begin(),result.end());
+         return result;
+    }
+};

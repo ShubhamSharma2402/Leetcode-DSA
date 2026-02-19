@@ -1,0 +1,48 @@
+so , to compare two maps or unordered_maps, we use if(map1==map2), as it compares both keys 
+and values irrespective of the order.
+but we prefer unordered_map or array hashing , as in aray hashing the time complexity for 
+searching is O(1) for best and average case. think of it as 26 drawers, where each drawer 
+has a label on it.
+
+1 st approach(using unordered_map):
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        unordered_map<char, int>mpp;
+        for(int i=0;i<s.size();i++){
+            mpp[s[i]]++;
+        }
+         unordered_map<char , int>mpp2;
+        for(int i=0;i<t.size();i++){
+            mpp2[t[i]]++;
+        }
+          if(mpp!=mpp2){
+            return false;
+          }
+          return true;
+    }
+};
+
+2nd approach(using array hashing):
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        int hash1[26]={0};
+        for(int i=0;i<s.size();i++){
+            hash1[s[i]-'a']++;
+        }
+         int hash2[26]={0};
+        for(int i=0;i<t.size();i++){
+            hash2[t[i]-'a']++;
+        }
+        for(int i=0;i<26;i++){
+        
+          if(hash1[i]!=hash2[i]){
+            return false;
+          }
+        }
+          return true;
+    }
+};

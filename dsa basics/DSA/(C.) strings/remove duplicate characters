@@ -1,0 +1,43 @@
+
+
+1st approach:-
+
+class Solution {
+  public:
+
+    string removeDups(string &s) {
+        unordered_map<char,int>hash;
+        
+        for(int i=0;i<s.size();i++){
+            if(hash.find(s[i]) == hash.end()){
+                hash[s[i]]=i;
+
+            }
+                else if(hash.find(s[i])!=hash.end()){
+                    s.erase(i,1);
+                    i--;
+                    }
+                }
+                
+                 return s;
+            }
+};
+
+2nd approach(better):-
+
+class Solution {
+public:
+    string removeDups(string &s) {
+        unordered_set<char> seen;
+        string result = "";
+
+        for(char c : s) {
+            if(seen.find(c) == seen.end()) {
+                seen.insert(c);
+                result.push_back(c);
+            }
+        }
+
+        return result;
+    }
+};

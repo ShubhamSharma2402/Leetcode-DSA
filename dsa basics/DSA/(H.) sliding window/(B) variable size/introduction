@@ -1,0 +1,50 @@
+SLIDING WINDOW:-
+
+A technique to process subarrays / substrings efficiently by maintaining a window over the data.
+
+Instead of recalculating again and again,
+👉 reuse previous work.
+
+brute force=> O(n*k)
+sliding window=> O(n)   ->> it is O(n) because each element enters windows once and leaves windows once
+
+
+* TYPES OF SLIDING WINDOW:-
+1) fixed size window
+2)variable size window
+
+code:-(fixed sized window)
+
+int maxSumSubarray(vector<int>& nums, int k) {
+    int windowSum = 0, maxSum = INT_MIN;
+
+    for (int i = 0; i < nums.size(); i++) {
+        windowSum += nums[i];
+
+        if (i >= k - 1) {
+            maxSum = max(maxSum, windowSum);
+            windowSum -= nums[i - (k - 1)];
+        }
+    }
+    return maxSum;
+}
+
+
+code:-(variable size window):-(general template):-
+
+int left = 0;
+for (int right = 0; right < n; right++) {
+
+    // 1️⃣ expand window
+    add(nums[right]);
+
+    // 2️⃣ shrink until valid
+    while (window is invalid) {
+        remove(nums[left]);
+        left++;
+    }
+
+    // 3️⃣ update answer
+    answer = max(answer, right - left + 1);
+}
+

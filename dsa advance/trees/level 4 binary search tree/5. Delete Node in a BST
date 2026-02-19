@@ -1,0 +1,37 @@
+leetcode:- 450. Delete Node in a BST
+
+isme two cases hai 1) jab jo node delete kr rhe ho uske 0 ya 1 child hai, aur 2) uske 2 child hai
+
+
+approach:-
+
+class Solution {
+public:
+    TreeNode* findmin(TreeNode* root){
+        while(root->left!=NULL){
+            root=root->left;
+        }
+        return root;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(key>root->val){
+            root->right=deleteNode(root->right,key);
+        }
+        else if(key<root->val){
+            root->left=deleteNode(root->left,key);
+        }
+        else{
+            if(root->left==NULL){
+                return root->right;
+            }
+            if(root->right==NULL){
+                return root->left;
+            }
+            TreeNode* succ=findmin(root->right);
+            root->val=succ->val;
+            root->right=deleteNode(root->right,succ->val);
+        }
+        return root;
+    }
+};

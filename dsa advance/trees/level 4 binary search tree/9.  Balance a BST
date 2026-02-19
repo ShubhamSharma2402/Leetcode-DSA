@@ -1,0 +1,47 @@
+leetcode:- 1382 – Balance a Binary Search Tree
+
+note:-
+Step 1: Inorder traversal (BST → sorted array)
+inorder(root) → [1, 2, 3, 4, 5, 6, 7]
+
+Step 2: Build balanced BST
+
+1. Pick middle element as root
+2. Left half → left subtree
+3. Right half → right subtree
+4. This guarantees balance.
+
+
+approach:-
+
+
+class Solution {
+public:
+    vector<int> inorderVals;
+
+    // Step 1: Inorder traversal
+    void inorder(TreeNode* root) {
+        if (root == NULL) return;
+        inorder(root->left);
+        inorderVals.push_back(root->val);
+        inorder(root->right);
+    }
+
+    // Step 2: Build balanced BST
+    TreeNode* buildBST(int left, int right) {
+        if (left > right) return NULL;
+
+        int mid = (left + right) / 2;
+        TreeNode* root = new TreeNode(inorderVals[mid]);
+
+        root->left = buildBST(left, mid - 1);
+        root->right = buildBST(mid + 1, right);
+
+        return root;
+    }
+
+    TreeNode* balanceBST(TreeNode* root) {
+        inorder(root);
+        return buildBST(0, inorderVals.size() - 1);
+    }
+};

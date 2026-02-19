@@ -1,0 +1,60 @@
+kadane's algorithm:-
+
+❌ Brute Force (What we avoid)
+Check all subarrays
+
+Time: O(n²) or O(n³)
+
+✅ Kadane’s Algorithm (Optimal)
+
+Time: O(n)
+
+Space: O(1)
+
+🔹 Core Intuition (MOST IMPORTANT)
+
+👉 If the current sum becomes negative, drop it.
+Why?
+A negative sum will only reduce future subarray sums
+
+Starting fresh gives a better chance
+
+🔹 Two Variables Used
+
+currentSum → best sum ending at current index
+
+maxSum → best sum seen so far
+
+*VARIENTS:-
+
+Variant 1: Maximum Subarray with Indices
+
+Variant 2: Minimum Subarray Sum
+
+Variant 3: Circular Subarray Sum
+
+*When to use Kadane?
+
+Use when problem says:
+
+1. “Maximum subarray”
+
+2. “Largest sum of contiguous elements”
+
+3. “Best running segment”
+
+IMPLEMENTATION:-
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int currentSum = nums[0];
+        int maxSum = nums[0];
+
+        for (int i = 1; i < nums.size(); i++) {
+            currentSum = max(nums[i], currentSum + nums[i]);
+            maxSum = max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
+};

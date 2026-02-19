@@ -1,0 +1,87 @@
+// in array hashing we can only hash numbers till 10^8 if we declare it globally ,
+ and we can't hash number greater than this using array. thats why we use map and unordered_map.
+
+ map is in key value pair. map<int,int>= map<key,value>
+
+ if we have an array arr=[1,2,3,12,1,2,3];
+ in hashing we have to make the hash array for 13 elemnts , but if we use map we can only store
+    the elements which are present in the array. it saves memory. if we search for 
+    map[4], it will show 0;
+
+map stores all the values in sorted order according to key.
+umordered_map stores all the values in random order.
+
+for character maping we can use map<char,int> mpp; where mpp[s[i]]++;
+
+time complexity of map:-(for insertion,deletion,searching)   time complexity foe unordered_map:
+    O(logn) (for all best , average and worst case)            O(1) for best and average case,
+                                                               O(n) for worst case.(very rare)
+
+Imp :- first preference should be unordered_map, but if it gives TLE then use map.
+
+the worst case of unordered_map occurs when there are many collisions. 
+as w eknow the moment the value is more than 10^8 arrya hashing is not possible.
+so how does map and unordered_map works for such large values? 
+   using these three hashing methods:
+1. Division Method 
+2. Folding Method
+3. Mid-Square Method
+ -> in division method , we can stoe till 0-9. by using arr[i]%10;
+ -> but what if there are two number which have the same key after moding?
+    eg: 10%10=0 and 20%10=0; so both will be stored at same index.
+ -> to avoid this collision we use chaining method.(using linked list).)
+
+ Note:-1)  if all the keys end up at same index then the time complexity will be O(n).
+        but this is very rare.
+        2) In map key can be any data structure like int,char,string but in array hashing
+           we can only hash int values.
+        3) In map , key can be any data structure , even pair of two integers.
+           eg: map<pair<int,int>,int> mpp; 
+               mpp[{1,2}]=3;
+               cout<<mpp[{1,2}]; // it will print 3.
+               but in unordered_map we can't use pair as key directly.
+
+          unordered_map<int,int>mpp   -> mp.size(); // gives number of key value pairs present in the map.
+          mpp.count(key)     
+          
+           unordered_map<int,int> freq1;
+           while (freq1.size() > k) {
+           }-> gives 1 if key is present , else 0
+
+           unordered_set<int> s;
+           s.count(key); -> gives 1 if key is present , else 0
+
+           unordered_set<int> st;
+            st.insert(nums[j]);
+                // If the running sum appears in the subarray
+                if (st.find(sum) != st.end()) {
+                    ans++;
+
+    #include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    map<int,int> mpp;
+    for(int i=0;i<n;i++){
+        mpp[arr[i]]++;
+    }
+
+    for(auto it:mpp){
+        cout<<it.first<<"->"<<it.second<<endl;
+    }
+    
+    int q;
+    cin>>q;
+    while(q--){
+        int number;
+        cin>>number;
+        cout<<mpp[number]<<endl;
+    }
+    
+    return 0;
+}

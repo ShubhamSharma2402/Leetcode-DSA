@@ -1,0 +1,49 @@
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    
+    int n;
+    cin>>n;
+    int arr[n];
+    for(int i=0;i<n;i++){
+        cin>>arr[i];
+    }
+    
+    int hash[13]={0};
+    for(int i=0;i<n;i++){
+        hash[arr[i]] +=1;
+    }
+    
+    int q;
+    cin>>q;
+    while(q--){
+        int number;
+        cin>>number;
+        cout<<hash[number];
+    }
+    
+    return 0;
+}
+
+input:-                                              output:-
+5                                                      2
+1 3 2 1 3                                              0
+5                                                      1
+1                                                      2
+4                                                      0
+2
+3
+12
+
+Explanation:
+so if we use integer array , 
+if we declare it inside the main function, we can take the max size of the hash array to 10^6
+- but if we declare th has array globally , we can declare till 10^7
+
+and if e use boolean array,
+if we declare it inside the main function we can declare it till 10^7
+-but if we declare it globally , we can declare it till 10^8
+

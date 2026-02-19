@@ -1,0 +1,129 @@
+🔑 What is Two Pointers?
+
+You use two indices to traverse an array smartly, usually:
+From both ends, or
+One slow, one fast
+
+Common pointer setups:
+int left = 0;
+int right = n - 1;
+
+or
+
+int slow = 0;
+for (int fast = 0; fast < n; fast++) { ... }
+
+🧠 WHEN to use Two Pointers?
+Use two pointers when: Array is sorted OR can be sorted
+
+Problem asks for:
+1)Pair / triplet
+2)Closest sum
+3)Remove duplicates
+4)Partition array
+5)Merge sorted arrays
+6)Compare from ends
+
+Keywords:
+
+pair, sum, difference, closest, remove, sorte
+
+IMPORTANT:-
+
+🧠 FINAL TWO-POINTER PATTERN MAP (MEMORISE THIS):-
+
+🔹 Pattern 1: Slow-Fast Pointers (In-place)
+👉 Modify array without extra space
+
+🔹 Pattern 2: Opposite-End Two Pointers
+👉 Sorted array, pair problems
+
+🔹 Pattern 3: Sorting + Two Pointers (K-Sum)
+👉 Pair → Triplet → Quadruplet
+
+Key rules:-
+1)Always sort
+2)Skip duplicates
+3)Fix one index, move two pointers
+
+🔹 Pattern 4: Partition / 3 Pointers
+👉 Divide array into regions
+
+🔹 Pattern 5: Merge from Back
+👉 Avoid overwriting
+
+🔹 Pattern 6: Greedy Two Pointers
+👉 Pair largest with smallest
+
+🔹 Pattern 7: Reverse Traversal Pointers
+ Backspace String Compare
+
+🔹 Pattern 8: Advanced Pointer Logic
+👉 Precomputed boundaries
+
+
+important :-
+
+🧩 The 4 Two-Pointer Patterns (ONLY THESE)
+
+1️⃣ Slow–Fast (Filter pattern)
+
+Use when:
+1. Remove / move / compress elements
+2. Maintain order
+
+Examples:
+1. LC 283 (Move Zeroes)
+2. LC 26 (Remove Duplicates)
+
+Template:-
+
+slow = 0
+for fast in array:
+    if valid:
+        arr[slow] = arr[fast]
+        slow++
+
+2️⃣ Left–Right (Sorted array)
+
+Use when:
+1. Array is sorted
+2. Pair / sum / comparison
+
+Examples:
+LC 167, LC 15
+
+Template:-
+
+l = 0, r = n-1
+while l < r:
+    if condition:
+        l++
+    else:
+        r--
+
+3️⃣ Sliding Window (Subarray / substring)
+
+Use when:
+1. Continuous range
+2. Count / frequency
+
+Examples:
+LC 1358, LC 992
+
+Template:-
+
+for right:
+    add(right)
+    while invalid:
+        remove(left)
+        left++
+
+4️⃣ Two Windows (Exact K)
+
+Use when:
+1. Exactly K something
+
+Examples:
+
+LC 992, LC 1248

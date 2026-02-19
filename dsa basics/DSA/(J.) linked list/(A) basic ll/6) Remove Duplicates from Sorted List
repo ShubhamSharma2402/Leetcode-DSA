@@ -1,0 +1,42 @@
+leetcode:- 83. Remove Duplicates from Sorted List
+
+ques:-
+Given the head of a sorted linked list, delete all duplicates such that each element appears only once. 
+Return the linked list sorted as well.
+
+approach 1:-
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+       
+        ListNode* temp=head;
+        while(temp!= NULL && temp->next!=NULL){
+          while(temp->next!=NULL && temp->val==temp->next->val){
+            temp->next=temp->next->next;
+          }
+          temp=temp->next;
+        }
+        return head;
+    }
+};
+
+approach 2:- (almost same)
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* curr = head;
+
+        while (curr != NULL && curr->next != NULL) {
+            if (curr->val == curr->next->val) {
+                curr->next = curr->next->next;
+            } else {
+                curr = curr->next;
+            }
+        }
+        return head;
+    }
+};
+
+

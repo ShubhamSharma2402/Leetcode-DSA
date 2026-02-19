@@ -1,0 +1,22 @@
+leetcode:- 237. Delete Node in a Linked List
+
+ques:- 📌 Problem Summary
+
+You are given only access to the node that needs to be deleted in a singly linked list (not the head).
+You must delete that node from the list.
+
+⚠️ Important Constraint
+
+You cannot access the head of the list.
+You cannot traverse backwards.
+The node to delete is not the tail.
+
+approach:-
+
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val=node->next->val;
+        node->next=node->next->next;
+    }
+};

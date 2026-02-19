@@ -1,0 +1,57 @@
+leetcode:- 230. Kth Smallest Element in a BST
+
+approach:-
+
+class Solution {
+public:
+    int count=0;
+    int ans=-1;
+    void inorder(TreeNode* root, int k){
+        if(root==NULL) return;
+        inorder(root->left,k);
+
+     count++;
+     if(count==k){
+        ans=root->val;
+        return;
+     }
+        inorder(root->right,k);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        inorder(root,k);
+        return ans;
+    }
+};
+
+
+kth largest
+
+approach:-(bas right pehle kar do , left baad me)
+
+class Solution {
+public:
+    int count=0;
+    int ans=-1;
+    void inorder(TreeNode* root, int k){
+        if(root==NULL) return;
+        inorder(root->right,k);
+
+     count++;
+     if(count==k){
+        ans=root->val;
+        return;
+     }
+        inorder(root->left,k);
+    }
+    int kthLargest(TreeNode* root, int k) {
+        inorder(root,k);
+        return ans;
+    }
+};
+
+
+⏱ Complexity
+
+Time: O(n) worst case
+
+Space: O(h) recursion stack

@@ -1,0 +1,44 @@
+leetcoode:- 1191. K-Concatenation Maximum Sum
+
+ques:-
+Given an integer array arr and an integer k, modify the array by repeating it k times.
+For example, if arr = [1, 2] and k = 3 then the modified array will be [1, 2, 1, 2, 1, 2].
+Return the maximum sub-array sum in the modified array. Note that the length of the sub-array can be 0 and its sum in that case is 0.
+
+As the answer can be very large, return the answer modulo 109 + 7.
+
+Example 1:
+
+Input: arr = [1,2], k = 3
+Output: 9
+
+approach:-
+
+class Solution {
+public:
+    int kConcatenationMaxSum(vector<int>& arr, int k) {
+    int n=arr.size();
+    const int mod=1e9+7;
+    long long max_sum=0;
+    long long current_sum=0;
+    long long total_sum=0;
+    int times=min(2,k);
+    for(int i=0;i<times;i++){
+        for(int j=0;j<n;j++){
+            current_sum=max((long long)arr[j],current_sum+arr[j]);
+            max_sum=max(max_sum,current_sum);
+        }
+    }
+      for(int i=0;i<n;i++){
+        total_sum+=arr[i];
+      }
+
+      if(k==1){
+        return max_sum%mod;
+      }
+      if(total_sum>0){
+        max_sum+=(k-2)*total_sum;
+      }
+      return max_sum%mod;
+    }
+};

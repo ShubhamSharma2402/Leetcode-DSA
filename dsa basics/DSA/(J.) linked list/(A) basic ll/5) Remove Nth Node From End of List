@@ -1,0 +1,40 @@
+leetcode:- 19. Remove Nth Node From End of List
+
+ques:-
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+note(imp):-
+1. dummy is use to hande edge cases, like when we have to remove head.
+2. in the case , when list is empty:-
+
+Step 3: Move fast (n+1 times = 2 times)
+Move 1: fast = NULL
+Move 2: ❌ fast = fast->next (invalid)
+
+⚠️ Important
+LeetCode guarantees:
+
+1 ≤ n ≤ length of list
+
+Since length = 0, this case will NOT be tested.
+
+approach:-
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* dummy=new ListNode(0);
+        dummy->next=head;
+        ListNode* slow=dummy;
+        ListNode* fast=dummy;
+        for(int i=0;i<=n;i++){
+            fast=fast->next;
+        }
+        while(fast!=NULL){
+            slow=slow->next;
+            fast=fast->next;
+        }
+        slow->next=slow->next->next;
+        return dummy->next;
+    }
+};

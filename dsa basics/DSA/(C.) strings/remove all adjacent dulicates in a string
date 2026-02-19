@@ -1,0 +1,23 @@
+
+leetcode :- 1047
+
+so iss ques me agar 2 same elements adjacent honge toh unhe remove karna hai , 
+ismne hashmap use nahi hoga , simple ek alag string banani hai aur usme stack func like 
+back(), push_back(), pop_back() use karna hai.
+
+
+class Solution {
+public:
+    string removeDuplicates(string s) {
+        string result="";
+        for(int i=0;i<s.size();i++){
+            if(!result.empty() && result.back()==s[i]){
+                result.pop_back();
+            }
+            else{
+                result.push_back(s[i]);
+            }
+        }
+        return result;
+    }
+};

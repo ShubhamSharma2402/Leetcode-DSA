@@ -1,0 +1,201 @@
+🔹 Pattern 3: Sorting + Two Pointers (K-Sum)
+👉 Pair → Triplet → Quadruplet
+
+Questions
+15. 3Sum
+16. 3Sum Closest
+18. 4Sum
+
+Key rules:-
+1. Always sort
+2. Skip duplicates
+3. Fix one index, move two pointers
+
+This reduces:
+O(n³) → O(n²) for 3Sum
+O(n⁴) → O(n³) for 4Sum
+
+🧩 BASE TEMPLATE (3Sum-style):-
+
+sort(nums.begin(), nums.end());
+for (int i = 0; i < n; i++) {
+
+    // 1️⃣ Skip duplicates for the fixed element
+    if (i > 0 && nums[i] == nums[i - 1]) continue;
+
+    int left = i + 1;
+    int right = n - 1;
+
+    while (left < right) {
+        long long sum = nums[i] + nums[left] + nums[right];
+
+        if (sum == target) {
+            // ✅ found valid triplet
+            record answer;
+
+            left++;
+            right--;
+
+            // 2️⃣ Skip duplicates for left & right
+            while (left < right && nums[left] == nums[left - 1]) left++;
+            while (left < right && nums[right] == nums[right + 1]) right--;
+        }
+        else if (sum < target) {
+            left++;
+        }
+        else {
+            right--;
+        }
+    }
+}
+
+15. 3Sum
+
+ approach:-
+ class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+     sort(nums.begin(),nums.end());
+     int n=nums.size();
+     vector<vector<int>>ans;
+     for(int i=0;i<n;i++){
+        if(i>0 && nums[i]==nums[i-1]){
+            continue;
+        }
+        int left=i+1;
+        int right=n-1;
+        while(right>left){
+        long long sum=nums[i]+nums[left]+nums[right];
+        if(sum==0){
+            ans.push_back({nums[i],nums[left],nums[right]});
+            left++;
+            right--;
+            while(right>left && nums[left]==nums[left-1]){
+                left++;
+            }
+            while(right>left && nums[right]==nums[right+1]){
+                right--;
+            } 
+        }
+        else if(sum>0){
+            right--;
+        }
+        else{
+            left++;
+        }
+     }
+     }
+     return ans;
+    }
+};
+
+leetcode:- 16. 3Sum Closest
+
+approach 1:-(expected):-
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        
+        int ans=nums[0]+nums[1]+nums[2];
+        for(int i=0;i<n-2;i++){
+            int left=i+1;
+            int right=n-1;
+            while(right>left){
+                int sum=nums[i]+nums[left]+nums[right];
+                if(abs(sum-target)<abs(ans-target)){
+                    ans=sum;
+                }
+                if(sum>target){
+                    right--;
+                }
+                else if(sum<target){
+                    left++;
+                }
+                else{
+                    return sum;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+approach 2:-(another way)
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        int diff=INT_MAX;
+        int ans=INT_MAX;
+        for(int i=0;i<n-2;i++){
+            int left=i+1;
+            int right=n-1;
+            while(right>left){
+                int sum=nums[i]+nums[left]+nums[right];
+                if(diff>abs(target-sum)){
+                    ans=sum;
+                    diff=abs(target-sum);
+                }
+                if(sum>target){
+                    right--;
+                }
+                else if(sum<target){
+                    left++;
+                }
+                else{
+                    return sum;
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
+leetcode:- 18. 4Sum
+
+approach(same as 3 sum, just another loop):-
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        vector<vector<int>> ans;
+        for(int i=0;i<n-3;i++){
+            if(i>0 && nums[i]==nums[i-1]){
+                continue;
+            }
+            for(int j=i+1;j<n-2;j++){
+                if(j>i+1 && nums[j]==nums[j-1]){
+                    continue;
+                }
+                int left=j+1;
+                int right=n-1;
+                while(right>left){
+                    long long sum=(long long)nums[i]+nums[j]+nums[left]+nums[right];
+                    if(sum==target){
+                        ans.push_back({nums[i],nums[j],nums[left],nums[right]});
+                        left++;
+                        right--;
+                        while(right>left && nums[left]==nums[left-1]){
+                    left++;
+                        }
+                        while(right>left && nums[right]==nums[right+1]){
+                            right--;
+                        }
+                    }
+                    else if(sum>target){
+                        right--;
+                    }
+                    else{
+                        left++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};

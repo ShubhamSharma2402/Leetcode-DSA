@@ -1,0 +1,49 @@
+tough hai thoda but ho jayega
+
+
+approach:-
+
+
+class Solution {
+void addLeftBoundary(TreeNode* root, vector<int>& res){
+    TreeNode* curr=root->left;
+    while(curr!=NULL){
+        if(!isLeaf(curr)) res.push_back(curr->val);
+        if(curr->left!=NULL) curr=curr->left;
+        else curr=curr->right;
+    }
+}
+
+void addRightBoundary(TreeNode* root, vector<int>& res){
+    TreeNode* curr=root->right;
+    vector<int>temp;
+    while(curr!=NULL){
+        if(!isLeaf(curr)) temp.push_back(curr->val);
+        if(curr->right!=NULL) curr=curr->right;
+        else curr=curr->left;
+    }
+    for(int i=temp.size()-1;i>=0;i--){
+        res.push_back(temp[i]);
+    }
+}
+
+void addLeaf(TreeNode* root, vector<int>& res){
+    if(isLeaf(root)){
+        res.push_back(root->val);
+        return;
+    }
+    if(root->left!=NULL) addLeaf(root->left,res);
+    if(root->right!-NULL) addLeaf(root->right,res);
+}
+
+public:
+vector<int> printBoundary(TreeNode* root){
+    vector<int>res;
+    if(root==NULL) return res;
+    if(!isLeaf(root)) res.push_back(root->val);
+    addLeftBoundary(root,res);
+    addLeaf(root,res);      
+    addRightBoundary(root,res);
+    return res;
+}
+};

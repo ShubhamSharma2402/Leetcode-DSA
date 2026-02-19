@@ -1,0 +1,128 @@
+🔹 Pattern 2: Opposite-End Two Pointers
+👉 Sorted array, pair problems
+
+Questions
+167. Two Sum II
+977. Squares of Sorted Array
+11. Container With Most Water
+
+Template:-
+
+int l = 0, r = n - 1;
+while (l < r) {
+    if (condition) l++;
+    else r--;
+}
+
+
+leetcode:-167. Two Sum II - Input Array Is Sorted
+ques:-
+Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that 
+they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
+
+Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+Your solution must use only constant extra space.
+
+Example 1:
+
+Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+
+approach:-
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n=numbers.size();
+        int left=0;
+        int right=n-1;
+        while(right>left){
+            int sum=numbers[right]+numbers[left];
+            if(sum==target){
+                return {left+1,right+1};
+            }
+            else if(sum>target){
+                right--;
+            }
+            else{
+                left++;
+            }
+        }
+      
+        return {};
+    }
+};
+
+leetcode:- 977. Squares of a Sorted Array
+ques:-
+Given an integer array nums sorted in non-decreasing order, return an array of the squares of each number sorted in non-decreasing order.
+
+Example 1:
+
+Input: nums = [-4,-1,0,3,10]
+Output: [0,1,9,16,100]
+Explanation: After squaring, the array becomes [16,1,0,9,100].
+After sorting, it becomes [0,1,9,16,100].
+
+approach:-
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+       int n=nums.size();
+        vector<int>arr(n);
+       int left=0;
+       int right=n-1;
+       int indexx=n-1;
+       while(right>=left){
+        if(abs(nums[right])>abs(nums[left])){
+           arr[indexx]=nums[right]*nums[right];
+           right--;
+           indexx--;
+        }
+        else{
+            arr[indexx]=nums[left]*nums[left];
+            left++;
+            indexx--;
+        }
+       }
+       return arr;
+    }
+};
+
+leetcode:-11. Container With Most Water
+ques:-
+You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are
+ (i, 0) and (i, height[i]).
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+Return the maximum amount of water a container can store.
+Notice that you may not slant the container.
+
+example:-1  Input: height = [1,8,6,2,5,4,8,3,7]
+Output: 49
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of
+ water (blue section) the container can contain is 49.
+
+ approach:-
+ class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int n=height.size();
+        int left=0;
+        int right=n-1;
+        int maxx=0;
+        while(right>left){
+            if(height[left]<height[right]){
+                maxx=max(maxx,height[left]*(right-left));
+                left++;
+            }
+            else{
+                maxx=max(maxx,height[right]*(right-left));
+                right--;
+            }
+        }
+        return maxx;
+    }
+};
+
+

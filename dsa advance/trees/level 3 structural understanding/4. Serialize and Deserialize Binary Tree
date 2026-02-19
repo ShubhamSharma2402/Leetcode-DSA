@@ -1,0 +1,58 @@
+leetcode:- 297. Serialize and Deserialize Binary Tree
+
+ques:-
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file
+ or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm 
+should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+Clarification: The input/output format is the same as how LeetCode serializes a binary tree. You do not necessarily need to follow this 
+format, so please be creative and come up with different approaches yourself.
+
+approach:-
+
+class Codec {
+public:
+    void serializehelper(TreeNode* root, string& s){
+      if(root==NULL){
+        s+="N,";
+        return;
+      }
+      s+=to_string(root->val)+",";
+      serializehelper(root->left,s);
+      serializehelper(root->right,s);
+    }
+    // Encodes a tree to a single string.
+    string serialize(TreeNode* root) {
+        string s;
+        serializehelper(root,s);
+        return s;
+    }
+    TreeNode* deserializehelper(vector<string>&nodes, int& i){
+     if(nodes[i]=="N"){
+        i++;
+        return NULL;
+     }
+     TreeNode* root=new TreeNode(stoi(nodes[i++]));
+     root->left=deserializehelper(nodes,i);
+     root->right=deserializehelper(nodes,i);
+     return root;
+    }
+    // Decodes your encoded data to tree.
+    TreeNode* deserialize(string data) {
+        vector<string>nodes;
+        string temp="";
+        for(int i=0;i<data.size();i++){
+            if(data[i]==','){
+                nodes.push_back(temp);
+                temp.clear();
+            }
+            else{
+                temp+=data[i];
+            }
+        }
+        int i=0;
+        return deserializehelper(nodes,i);
+    }
+};

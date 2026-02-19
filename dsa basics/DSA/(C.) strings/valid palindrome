@@ -1,0 +1,13 @@
+leetcode:- 125
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        string result="";                                          
+            left++;
+            right--;
+        }
+
+        return true;
+    }
+};

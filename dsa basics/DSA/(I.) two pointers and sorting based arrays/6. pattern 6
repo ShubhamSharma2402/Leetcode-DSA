@@ -1,0 +1,52 @@
+🔹 Pattern 6: Greedy Two Pointers
+👉 Pair largest with smallest
+
+🔍 Step-by-Step Intuition:-
+
+1️⃣ Sort the array if problem involves maximizing/minimizing total using pairs
+2️⃣ Use one pointer at the start and one at the end
+3️⃣ Decide greedily: pick largest + smallest, or two largest, depending on problem
+4️⃣ Update result
+5️⃣ Move pointers according to the rule
+
+Questions
+881. Boats to Save People
+
+leetcode:-881. Boats to Save People
+ques:-
+You are given an array people where people[i] is the weight of the ith person, and an infinite number of boats where each boat can 
+carry a maximum weight of limit. Each boat carries at most two people at the same time, provided the sum of the weight of those people 
+is at most limit.
+
+Return the minimum number of boats to carry every given person.
+
+Example 1:
+Input: people = [1,2], limit = 3
+Output: 1
+Explanation: 1 boat (1, 2)
+
+approach:-
+
+class Solution {
+public:
+    int numRescueBoats(vector<int>& people, int limit) {
+        sort(people.begin(),people.end());
+        int n=people.size();
+        int left=0;
+        int right=n-1;
+        int ans=0;
+        while(right>=left){
+            int sum=people[left]+people[right];
+            if(sum>limit){
+                ans++;
+                right--;
+            }
+            else{
+                ans++;
+                left++;
+                right--;
+            }
+        }
+        return ans;
+    }
+};

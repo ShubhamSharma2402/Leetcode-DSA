@@ -1,0 +1,50 @@
+
+1st approach(using stack):-
+
+class Solution {
+public:
+    string reverseVowels(string s) {
+        stack<char>s1;
+        int n=s.size();
+        for(int i=0;i<n;i++){
+        if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u'||s[i]=='A'||s[i]=='E'||s[i]=='I'||s[i]=='O'||s[i]=='U'){
+            s1.push(s[i]);
+        }
+        }
+        for(int i=0;i<n;i++){
+        if(s[i]=='a'||s[i]=='e'||s[i]=='i'||s[i]=='o'||s[i]=='u'||s[i]=='A'||s[i]=='E'||s[i]=='I'||s[i]=='O'||s[i]=='U'){
+           s[i]=s1.top();
+           s1.pop();
+        }
+        }
+      return s;
+    }
+};
+
+2nd approach(using swap or two pointers):-
+
+class Solution {
+public:
+       bool isvowel(char c){
+        return c=='a'||c=='e'||c=='i'||c=='o'||c=='u'||c=='A'||c=='E'||c=='I'||c=='O'||c=='U';
+       }
+    string reverseVowels(string s) {
+
+       int i=0;
+       int j=s.size()-1;
+       while(j>i){
+        if(isvowel(s[i]) &&isvowel(s[j])){
+            swap(s[i],s[j]);
+            i++;
+            j--;        }
+            if(!isvowel(s[i])){
+                i++;
+            }
+            if(!isvowel(s[j])){
+                j--;
+            }
+
+       }
+       return s;
+    }
+};

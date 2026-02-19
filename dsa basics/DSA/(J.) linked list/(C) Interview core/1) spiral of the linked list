@@ -1,0 +1,47 @@
+Spiral of the linked list
+
+
+approach:-
+
+Node* spirallinkedlist(Node* head){
+    if(head==NULL|| head->next==NULL) return head;
+    
+    Node* slow=head;
+    Node* fast=head;
+    Node*prevslow=NULL;
+    while(fast!=NULL&& fast->next!=NULL){
+        prevslow=slow;
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    prevslow->next=NULL;
+    Node* prev=NULL;
+    Node* curr=head;
+    while(curr!=NULL){
+        Node* next=curr->next;
+        curr->next=prev;
+        prev=curr;
+        curr=next;
+    }
+    Node* lefthead=prev;
+    Node* righthead=slow->next;
+    slow->next=NULL;
+    
+    Node* dummy=new Node(0);
+    Node* nodee=slow;
+    dummy->next=nodee;
+    
+    while(lefthead!=NULL|| righthead!=NULL){
+        if(lefthead!=NULL){
+        nodee->next=lefthead;
+        lefthead=lefthead->next;
+        nodee=nodee->next;
+        }
+        if(righthead!=NULL){
+        nodee->next=righthead;
+        righthead=righthead->next;
+        nodee=nodee->next;
+        }
+    }
+    return dummy->next;
+}

@@ -1,0 +1,105 @@
+(A) *kadane's algorithm:-
+
+when:-
+1. part of SW.
+2. solves maximum subarray sum
+3. window implicitly resets 
+4. use sum based decision and only numbers
+
+Look for these words 👀
+
+1. Maximum / minimum sum
+2. Contiguous subarray
+3. “Best possible sum”
+4. “At least one element”
+
+Typical question phrasing:
+
+“Find the maximum sum of a contiguous subarray”
+
+✔️ Continuous
+✔️ Sum / product
+✔️ One pass possible
+
+👉 Pattern = Kadane
+
+Example:
+1. LeetCode 53
+2. LeetCode 918
+
+(B) *SLIDING WINDOW :-
+
+when:-
+1. window may grow/shrink
+2. needs condition checks
+3. used with hashmap, sets, etc
+
+
+imp:-
+Key sign:
+1. Subarray / substring
+2. Window grows or slides
+
+🔹 A) Fixed-size Sliding Window
+Look for:
+1. “Size k”
+2. “Exactly k elements”
+
+Example:
+“Maximum sum of subarray of size k”
+
+👉 Pattern = Fixed Window
+
+🔹 B) Variable-size Sliding Window
+Look for:
+1. “At most / at least”
+2. “Longest / shortest”
+3. Condition-based window
+
+Example:
+“Longest substring without repeating characters”
+
+👉 Pattern = Variable Window
+difference between kadane's algorithm and SW
+
+1. IN, kadane's window is implicit
+2. you dont track left pointer
+3. you drop the the window when sum becomes harmful
+eg:- maximum subarray sum
+
+1. IN, SW, window is explicit.
+2. you control:- left pointer, right pointer, window size.
+eg:- longest substring without repeating characters
+
+(C) *TWO POINTERS :-
+
+1. independent pointers
+2. can be non-contagious 
+3. just moves pointers
+
+Look for:
+1. Sorted array
+2. Pair / triplet
+3.Sum equals target
+
+👉 Pattern = Two Pointers
+
+(D) *PREFIX SUM:-
+
+Look for:
+1. Many range queries
+2. Subarray sum equals k
+3. Difference between ranges
+
+👉 Pattern = Prefix Sum (+ HashMap)
+
+(E) *HASHING:-
+
+Look for:
+1. Frequency
+2. Anagram
+3. First non-repeating
+
+Seen before?
+
+👉 Pattern = Hashing

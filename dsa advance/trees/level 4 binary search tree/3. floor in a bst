@@ -1,0 +1,24 @@
+floor in a bst is the closest value to the given val, so that floor<=val.
+
+
+approach:-
+
+class Solution{
+    public:
+    int floorBST(TreeNode* root,int key){
+        int floor=-1;
+        while(root!=NULL){
+            if(root->val==key){
+                return root->val;
+            }
+            else if(root->val>key){
+                root->root->left;
+            }
+            else{
+                floor=root->val;
+                root=root->right;
+            }
+        }
+        return root;
+    }
+}

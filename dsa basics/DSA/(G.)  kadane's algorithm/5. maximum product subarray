@@ -1,0 +1,41 @@
+leetcode:- 152. Maximum Product Subarray
+
+ques:- Given an integer array nums, find a subarray that has the largest product, and return the product.
+The test cases are generated so that the answer will fit in a 32-bit integer.
+Note that the product of an array with a single element is the value of that element.
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+
+approach:- think like this,if yu wan to find
+1. maximum sum-> calculate max_sum
+2. maximum product-> calculate max_prod and min_prod
+
+
+code:-
+
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int max_prod=nums[0];
+        int min_prod=nums[0];
+        int ans= nums[0];
+        for(int i=1;i<nums.size();i++){
+            if(nums[i]<0){
+                swap(max_prod,min_prod);
+            }
+            max_prod=max(nums[i],max_prod*nums[i]);
+            min_prod=min(nums[i],min_prod*nums[i]);
+            ans=max(ans,max_prod);
+        }
+        return ans;
+    }
+};
