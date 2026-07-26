@@ -1,0 +1,149 @@
+ Problem: 6. Network Technician Mission
+🔷 Problem Description:
+A network technician needs to visit multiple malfunctioning routers in a network. The routers 
+are connected with network cables having certain weights (representing time delay or cost of 
+    travel).
+
+The technician starts at a central router (Router 0), visits all other routers exactly once, 
+and returns back to the starting point. Your task is to design a path that takes 
+minimum total time, and print that minimum time. Due to time constraints, the exact solution 
+isn't feasible for large graphs, so you may use a Travelling Salesman Problem (TSP) 
+approximation.
+
+🔷 Input Format:
+First line: Two integers n and e — number of routers and number of connections.
+Next e lines: Each line contains three integers u, v, and w — meaning router u is connected to router v with a weighted edge of cost w.
+🔷 Output Format:
+Print one integer — the minimum approximate traversal time required to visit all routers and return to the start.
+🔷 Constraints:
+2 ≤ n ≤ 1000 (routers)
+1 ≤ e ≤ n*(n-1)/2
+0 ≤ u, v < n
+1 ≤ w ≤ 10^4
+Graph is connected and undirected
+🔷 Sample Input 1:
+4 6
+0 1 10
+0 2 15
+0 3 20
+1 2 35
+1 3 25
+2 3 30
+🔷 Sample Output 1:
+80
+✅ Approach
+We use a 2-approximation of the Travelling Salesman Problem:
+
+Build a Minimum Spanning Tree (MST) using Prim's algorithm.
+Perform DFS traversal of the MST starting from router 0.
+Add the cost of returning to the starting router to complete the tour.
+The total traversal cost gives a good approximation.
+
+
+code:-
+
+class Solution {
+    void dfs(int node,
+             int parent,
+             vector<vector<pair<int,int>>>& mst,
+             vector<int>& order) {
+
+        order.push_back(node);
+
+        for (auto& [child, wt] : mst[node]) {
+            if (child == parent)
+                continue;
+
+            dfs(child, node, mst, order);
+        }
+    }
+
+public:
+    long long solve(int n, int e, vector<vector<int>>& edges) {
+
+        vector<vector<pair<int,int>>> graph(n);
+
+        // Store original graph
+        unordered_map<long long, int> edgeCost;
+
+        for (auto &edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int w = edge[2];
+
+            graph[u].push_back({v, w});
+            graph[v].push_back({u, w});
+
+            long long key1 = 1LL * u * n + v;
+            long long key2 = 1LL * v * n + u;
+
+            edgeCost[key1] = w;
+            edgeCost[key2] = w;
+        }
+
+        // Prim's MST
+        vector<bool> vis(n, false);
+
+        priority_queue<
+            vector<int>,
+            vector<vector<int>>,
+            greater<vector<int>>
+        > pq;
+
+        pq.push({0, 0, -1}); // {weight,node,parent}
+
+        vector<vector<pair<int,int>>> mst(n);
+
+        while (!pq.empty()) {
+
+            auto cur = pq.top();
+            pq.pop();
+
+            int wt = cur[0];
+            int node = cur[1];
+            int parent = cur[2];
+
+            if (vis[node])
+                continue;
+
+            vis[node] = true;
+
+            if (parent != -1) {
+                mst[node].push_back({parent, wt});
+                mst[parent].push_back({node, wt});
+            }
+
+            for (auto &[nei, w] : graph[node]) {
+                if (!vis[nei]) {
+                    pq.push({w, nei, node});
+                }
+            }
+        }
+
+        // DFS preorder traversal
+        vector<int> order;
+        dfs(0, -1, mst, order);
+
+        // Compute approximate TSP tour cost
+        long long ans = 0;
+
+        for (int i = 0; i + 1 < order.size(); i++) {
+
+            int u = order[i];
+            int v = order[i + 1];
+
+            long long key = 1LL * u * n + v;
+
+            if (edgeCost.count(key))
+                ans += edgeCost[key];
+        }
+
+        // Return to start
+        long long backKey = 1LL * order.back() * n + 0;
+
+        if (edgeCost.count(backKey))
+            ans += edgeCost[backKey];
+
+        return ans;
+    }
+};

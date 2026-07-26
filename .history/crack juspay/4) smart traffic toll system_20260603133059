@@ -1,0 +1,69 @@
+Smart City Traffic Toll System
+Background:
+In a smart city, there are an infinite number of traffic control hubs numbered with positive integers starting from 1. Each hub is connected by smart roads in a unique tree-like structure:
+
+There is a direct, bidirectional road between hub i and 2i.
+Another direct road exists between hub i and 2*i + 1.
+Given this structure, there is always a unique shortest path between any two traffic control hubs.
+
+Initially, passing through any road is toll-free. However, to optimize traffic flow and manage congestion, the city traffic authority occasionally imposes toll fees on certain roads along specific paths.
+
+The traffic authority will introduce a series of changes:
+
+1. Toll Fee Update: An update described by integers x, y, and t imposes a toll of t units on all roads along the shortest path from hub y to hub x.
+
+2. Travel Cost Calculation: A commuter travels from hub x to hub y using the shortest path, and you need to calculate the total toll fees they incur.
+
+Input:
+The first line contains an integer q (1 ≤ q ≤ 1,000), representing the number of events.
+
+The next q lines contain details of the events:
+
+1 x y t: describes a toll update where all roads on the shortest path between hubs x and y increase their toll by t units.
+2 x y 0: represents a travel event where a commuter moves from hub x to hub y. They are given in the form of a 2D array of q rows and 4 columns.
+Output:
+For each travel event (2 x y 0), add to a sum the total cost for the trip and return the sum.
+
+
+code:-
+
+class Solution {
+public:
+    long long solve(int q, vector<vector<long long>>& a) {
+        unordered_map<long long, long long> cost;
+        long long total = 0;
+
+        for (auto &query : a) {
+            int type = query[0];
+            long long u = query[1], v = query[2], x = query[3];
+
+            if (type == 1) {
+                // Update
+                while (u != v) {
+                    if (u > v) {
+                        cost[u] += x;
+                        u /= 2;
+                    } else {
+                        cost[v] += x;
+                        v /= 2;
+                    }
+                }
+            } else {
+                // Query
+                long long curr = 0;
+                while (u != v) {
+                    if (u > v) {
+                        curr += cost[u];
+                        u /= 2;
+                    } else {
+                        curr += cost[v];
+                        v /= 2;
+                    }
+                }
+                total += curr;
+            }
+        }
+
+        return total;
+    }
+};

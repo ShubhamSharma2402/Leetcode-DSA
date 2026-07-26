@@ -1,0 +1,116 @@
+Smart City Traffic Toll System
+📘 Problem Description:
+In a smart city, roads between locations are equipped with electronic tolls and traffic sensors.
+ Each road segment between two locations has a toll cost and a travel time. A user can choose 
+ whether they want to minimize the total toll cost or the total travel time between two points.
+
+Given the road network as a graph, and a user’s preference ("TOLL" or "TIME"), determine the 
+minimum cost (either toll or time) required to travel from a source location to a destination 
+location.
+
+🔡 Input Format:
+n m
+u1 v1 toll1 time1
+u2 v2 toll2 time2
+...
+um vm tollm timem
+preference
+source destination
+n = number of locations (nodes)
+
+m = number of roads (edges)
+
+Each of the next m lines contains:
+
+ui, vi: two endpoints of the road
+tolli: toll cost of the road
+timei: travel time of the road
+preference: either "TOLL" or "TIME"
+
+source: starting location
+
+destination: target location
+
+🖨️ Output Format:
+Minimum <preference>: <value>
+Example:
+
+Minimum toll: 30
+or
+
+Minimum time: 18
+📋 Constraints:
+1 <= n <= 10^4
+1 <= m <= 5*10^4
+0 <= tolli, timei <= 10^4
+0 <= ui, vi < n
+preference ∈ {"TOLL", "TIME"}
+🧪 Sample Test Case 1:
+Input:
+5 5
+0 1 10 5
+1 2 5 7
+0 2 15 20
+2 3 10 4
+3 4 5 2
+TOLL
+0 4
+Output:
+Minimum toll: 30
+
+
+code:-
+
+class Solution {
+public:
+    long long minimumCost(
+        int n,
+        vector<vector<int>>& roads,
+        string preference,
+        int source,
+        int destination
+    ) {
+        vector<vector<pair<int, int>>> adj(n);
+
+        for (auto &e : roads) {
+            int u = e[0];
+            int v = e[1];
+            int toll = e[2];
+            int time = e[3];
+
+            int weight = (preference == "TOLL") ? toll : time;
+
+            adj[u].push_back({v, weight});
+            adj[v].push_back({u, weight}); // undirected road
+        }
+
+        vector<long long> dist(n, LLONG_MAX);
+
+        priority_queue<
+            pair<long long, int>,
+            vector<pair<long long, int>>,
+            greater<pair<long long, int>>
+        > pq;
+
+        dist[source] = 0;
+        pq.push({0, source});
+
+        while (!pq.empty()) {
+            auto [currDist, u] = pq.top();
+            pq.pop();
+
+            if (currDist > dist[u]) continue;
+
+            if (u == destination) return currDist;
+
+            for (auto &[v, wt] : adj[u]) {
+                if (dist[v] > currDist + wt) {
+                    dist[v] = currDist + wt;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+
+        return -1; // destination unreachable
+    }
+};

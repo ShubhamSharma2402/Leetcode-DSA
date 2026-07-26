@@ -1,0 +1,79 @@
+Network Technician’s Mission 
+In the city of Techville, a network technician named Sam is tasked with inspecting a newly established network of communication towers. The network is structured as a rooted tree with n towers, with the main control tower located at node 1. This control tower serves as the central hub for all communications.
+
+The network is built through various terrains, some of which are marked as hazardous zones. Each tower is either in a safe zone or a hazardous one. The outermost towers (the leaf nodes of the tree) need to be inspected by Sam, but he is cautious and wants to avoid paths that traverse through too many consecutive hazardous zones.
+
+Your task is to help Sam count the number of outermost towers (leaf nodes) he can safely inspect, where the path from the main control tower to the leaf contains no more than M consecutive hazardous zones.
+
+It is guaranteed that the given set of edges forms a tree structure.
+
+Function description
+Complete the safeViewPoints function in the editor below. It has the following parameter(s):
+
+Name	Type	Description
+N	INTEGER	the number of nodes in the tree
+M	INTEGER	the maximum number of consecutive dangerous sections Sam is willing to traverse
+k	INTEGER	Always equals to N - 1
+Arr1	INTEGER ARRAY	Array of N integers stating if tower in safe zone or not
+Arr2	INTEGER 2D ARRAY	2D array of size N - 1 with two values
+
+Return
+The function must return an INTEGER denoting the number of viewpoints (leaf nodes) where the path from the main camp (node 1) contains at most M consecutive dangerous sections.
+
+
+code:-  
+
+class Solution {
+    int ans = 0;
+
+    void dfs(int node,
+             int parent,
+             int consecutive,
+             vector<vector<int>>& adj,
+             vector<int>& Arr1,
+             int M) {
+
+        if (Arr1[node - 1] == 1)
+            consecutive++;
+        else
+            consecutive = 0;
+
+        if (consecutive > M)
+            return;
+
+        bool isLeaf = true;
+
+        for (int child : adj[node]) {
+            if (child == parent)
+                continue;
+
+            isLeaf = false;
+            dfs(child, node, consecutive, adj, Arr1, M);
+        }
+
+        if (isLeaf)
+            ans++;
+    }
+
+public:
+    int safeViewPoints(int N,
+                       int M,
+                       int k,
+                       vector<int>& Arr1,
+                       vector<vector<int>>& Arr2) {
+
+        vector<vector<int>> adj(N + 1);
+
+        for (auto &edge : Arr2) {
+            int u = edge[0];
+            int v = edge[1];
+
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+
+        dfs(1, -1, 0, adj, Arr1, M);
+
+        return ans;
+    }
+};

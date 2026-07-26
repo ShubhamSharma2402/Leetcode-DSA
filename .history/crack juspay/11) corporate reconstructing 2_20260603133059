@@ -1,0 +1,141 @@
+In the large corporation Techify Inc., there is a hierarchical structure of employees. The company has N employees, each identified by a unique ID from 1 to N. At the top of this structure is the CEO, who serves as the root of the company's hierarchy.
+
+Employees report to their immediate supervisors except for the CEO, who has no supervisor. The company is undergoing a restructuring process because some employees have become non-compliant
+
+《
+
+Compliant: An employee is compliant if they respect the company's policies and directives given by their supervisor.
+
+Non-Compliant: Some employees have grown dissatisfied and no longer respect their supervisor's authority
+
+To streamline the company, management has decided to identify and remove non-compliant employees, but with specific criteria:
+
+I
+
+1. Select a non-compliant employee (one who does not respect their supervisor) who also. has no compliant subordinates. If there are multiple such employees, select the one with the smallest ID.
+
+2. Remove the selected non-compliant employee. When this employee is removed, their directreports are immediately reassigned to report to their supervisor.
+
+3. Repeat the process until there are no more employees that meet the removal criteria.
+
+Your task is to determine the order in which these non-compliant employees will be removed.
+
+If there is at least one non-compliant employee that can be removed, print a single line containing the IDs of the employees in the order they will be removed.
+
+if no such employee exists, print -1.
+
+Notes
+
+PJ (1PJ≤Nor -1) denotes the direct supervisor of employee i. The CEO (root) has P_i 1 and CJ (05CJ≤1) indicates whether the employee respects their supervisor.
+
+CIO means the employee is compliant (respects the supervisor).
+
+CJ1 means the employee is non-compliant (does not respect the supervisor)
+
+
+
+
+code:-
+
+
+class Solution {
+public:
+    vector<int> solve(int n,
+                      vector<int>& parent,
+                      vector<int>& C) {
+
+        vector<vector<int>> children(n + 1);
+        vector<int> compChildCount(n + 1, 0);
+        vector<int> activeChildCount(n + 1, 0);
+        vector<bool> alive(n + 1, true);
+
+        int root = -1;
+
+        // Build tree
+        for (int i = 1; i <= n; i++) {
+            if (parent[i] == -1) {
+                root = i;
+            } else {
+                children[parent[i]].push_back(i);
+            }
+        }
+
+        // Initialize counts
+        for (int i = 1; i <= n; i++) {
+            activeChildCount[i] = children[i].size();
+
+            for (int ch : children[i]) {
+                if (C[ch] == 1) {
+                    compChildCount[i]++;
+                }
+            }
+        }
+
+        // min-heap for smallest ID first
+        priority_queue<int, vector<int>, greater<int>> pq;
+
+        for (int i = 1; i <= n; i++) {
+            if (i != root &&
+                C[i] == 0 &&
+                compChildCount[i] == 0) {
+                pq.push(i);
+            }
+        }
+
+        vector<int> result;
+
+        while (!pq.empty()) {
+            int u = pq.top();
+            pq.pop();
+
+            if (!alive[u]) continue;
+
+            if (u == root) continue;
+
+            if (!(C[u] == 0 && compChildCount[u] == 0)) continue;
+
+            alive[u] = false;
+            result.push_back(u);
+
+            int p = parent[u];
+
+            if (p != -1 && alive[p]) {
+
+                // remove u from parent's children logically
+                activeChildCount[p]--;
+
+                if (C[u] == 1) {
+                    compChildCount[p]--;
+                }
+
+                // check if parent becomes removable
+                if (p != root &&
+                    C[p] == 0 &&
+                    compChildCount[p] == 0 &&
+                    alive[p]) {
+                    pq.push(p);
+                }
+            }
+
+            // update parent dependencies (no tree rewiring!)
+            for (int v : children[u]) {
+                if (!alive[v]) continue;
+
+                parent[v] = p;
+
+                if (p != -1) {
+                    children[p].push_back(v);
+                    activeChildCount[p]++;
+
+                    if (C[v] == 1) {
+                        compChildCount[p]++;
+                    }
+                }
+            }
+        }
+
+        if (result.empty()) return {-1};
+
+        return result;
+    }
+};

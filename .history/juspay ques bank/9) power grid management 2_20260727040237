@@ -1,0 +1,135 @@
+Background:
+
+In the growing city of Electrovia, the power distribution network is designed as a balanced tree, with a central power plant serving as the root. The cities are connected through power lines, and each power line has an energy transmission cost that depends on its maintenance and power loss over distance.
+
+Objective:
+
+As the city's energy manager, you need to monitor the transmission costs between different cities and adjust them as necessary due to maintenance or upgrades.
+
+Functionality Requirements:
+
+1. Transmission Cost Query: Calculate the total transmission cost between any two cities.
+
+2. Cost Update Query: Modify the transmission cost for any specific power line connecting two cities.
+
+Input Format:
+
+Network Configuration: The input contains 3 integers, N (the number of cities) and R (the root city representing the power plant), M=N-1.
+
+The next N-1 lines each contain three integers U, V, W, where U and V are two connected
+
+<<<<cities and W is the transmission cost along the power line.
+
+These data will be given as a 2D array of N-1 rows and 3 columns.
+
+Queries: An integer Q indicates the number of queries.
+
+Each of the next Q lines describes a query, either:
+
+1AB0 to calculate the transmission cost between cities A and B.
+
+2 U V W to update the transmission cost between cities U and V to W.
+
+These queries will be given as a 2D array of Q rows and 4 columns.
+
+Output Format:
+
+Sum of results of transmission cost queries between the specified cities.
+
+
+code:-
+
+
+class Solution {
+private:
+    bool dfs(int curr,
+             int target,
+             vector<vector<pair<int,int>>>& adj,
+             vector<int>& vis,
+             long long currCost,
+             long long& answer) {
+
+        if (curr == target) {
+            answer = currCost;
+            return true;
+        }
+
+        vis[curr] = 1;
+
+        for (auto &[next, wt] : adj[curr]) {
+            if (!vis[next]) {
+                if (dfs(next, target, adj, vis,
+                        currCost + wt, answer)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    void updateEdge(vector<vector<pair<int,int>>>& adj,
+                    int u,
+                    int v,
+                    int newCost) {
+
+        for (auto &p : adj[u]) {
+            if (p.first == v) {
+                p.second = newCost;
+                break;
+            }
+        }
+    }
+
+public:
+    long long solve(int N,
+                    int R,
+                    vector<vector<int>>& edges,
+                    vector<vector<int>>& queries) {
+
+        vector<vector<pair<int,int>>> adj(N);
+
+        for (auto &e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int w = e[2];
+
+            adj[u].push_back({v, w});
+            adj[v].push_back({u, w});
+        }
+
+        long long total = 0;
+
+        for (auto &q : queries) {
+
+            int type = q[0];
+
+            // Query transmission cost
+            if (type == 1) {
+
+                int src = q[1];
+                int dest = q[2];
+
+                vector<int> vis(N, 0);
+                long long cost = -1;
+
+                dfs(src, dest, adj, vis, 0, cost);
+
+                total += cost;
+            }
+
+            // Update edge cost
+            else {
+
+                int u = q[1];
+                int v = q[2];
+                int newCost = q[3];
+
+                updateEdge(adj, u, v, newCost);
+                updateEdge(adj, v, u, newCost);
+            }
+        }
+
+        return total;
+    }
+};

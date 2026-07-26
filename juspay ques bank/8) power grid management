@@ -1,0 +1,97 @@
+ Power Grid Management
+🔹 Problem Description
+The government is planning to connect all cities with a power grid using cables. Each 
+connection between two cities has a certain cost. Your task is to connect all cities such
+ that the total cost is minimized.
+
+You are given:
+
+Number of cities n (labelled from 0 to n-1)
+A list of possible connections in the form of weighted edges (u, v, cost)
+You must determine the minimum total cost required to connect all cities such that power
+ can flow between any two cities, directly or indirectly.
+
+If it is not possible to connect all cities, return -1.
+
+🔹 Input Format
+n m
+u1 v1 cost1
+u2 v2 cost2
+...
+um vm costm
+n: Number of cities
+m: Number of available connections (edges)
+Each of the next m lines contains three integers u, v, and cost — representing a connection between city u and city v with given cost.
+🔹 Output Format
+Minimum Cost to Power All Cities: <cost>
+or
+
+-1
+🔹 Constraints
+1 ≤ n ≤ 10⁴
+0 ≤ m ≤ 10⁵
+0 ≤ u, v < n
+1 ≤ cost ≤ 10⁶
+🔹 Sample Input 1
+4 5
+0 1 1
+0 2 4
+1 2 2
+1 3 3
+2 3 5
+🔹 Sample Output 1
+Minimum Cost to Power All Cities: 6
+
+
+code:-
+
+
+class Solution {
+public:
+    long long minimumCostToPowerAllCities(int n,
+                                          vector<vector<int>>& edges) {
+
+        vector<vector<pair<int,int>>> adj(n);
+
+        for (auto &e : edges) {
+            int u = e[0];
+            int v = e[1];
+            int cost = e[2];
+
+            adj[u].push_back({v, cost});
+            adj[v].push_back({u, cost});
+        }
+
+        vector<bool> vis(n, false);
+
+        priority_queue<
+            pair<int,int>,
+            vector<pair<int,int>>,
+            greater<pair<int,int>>
+        > pq;
+
+        pq.push({0, 0});
+
+        long long mstCost = 0;
+        int nodesVisited = 0;
+
+        while (!pq.empty()) {
+            auto [cost, u] = pq.top();
+            pq.pop();
+
+            if (vis[u]) continue;
+
+            vis[u] = true;
+            mstCost += cost;
+            nodesVisited++;
+
+            for (auto &[v, wt] : adj[u]) {
+                if (!vis[v]) {
+                    pq.push({wt, v});
+                }
+            }
+        }
+
+        return (nodesVisited == n) ? mstCost : -1;
+    }
+};

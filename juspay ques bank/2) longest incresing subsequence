@@ -1,0 +1,40 @@
+🏋️ What “Weight Lifting Challenge” usually looks like
+
+Typical format:
+
+You’re given an array weights[]
+Each value represents weight lifted on a day / by a person / in a sequence
+There’s some constraint like:
+You can only lift in increasing order
+Or you want the maximum strength progression
+Or remove minimum elements to maintain order
+
+
+code:-
+
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        vector<int>temp;
+        temp.push_back(nums[0]);
+        for(int i=1;i<nums.size();i++){
+            if(nums[i]>temp.back()){
+                temp.push_back(nums[i]);
+            }
+            else{
+                int inde=lower_bound(temp.begin(),temp.end(),nums[i])-temp.begin();
+                temp[inde]=nums[i];
+            }
+        }
+        return temp.size();
+    }
+};
+
+
+1. Minimum removals to make increasing
+
+👉 Answer = n - LIS
+
+2. Maximum strength with constraints
+Only pick weights with difference ≤ K
+Might become sliding window + sorting

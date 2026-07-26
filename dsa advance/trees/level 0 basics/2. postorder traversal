@@ -70,3 +70,23 @@ public:
        return ans;
            }
 };
+
+
+leetcode:- 590. N-ary Tree Postorder Traversal
+
+
+class Solution {
+public:
+vector<int> ans;
+    void postt(Node* root){
+        if(root==NULL ) return;
+        for(Node* child:root->children){
+            postt(child);
+        }
+        ans.push_back(root->val);
+    }
+    vector<int> postorder(Node* root) {
+        postt(root);
+        return ans;
+    }
+};

@@ -1,0 +1,42 @@
+leetcode 3997 Count Dominant Nodes in a Binary Tree
+
+ques:-
+You are given the root of a complete binary tree.
+A node x is called dominant if its value is equal to the maximum value among all nodes in the subtree rooted at x.
+Return the number of dominant nodes in the tree. 
+
+Example 1:
+
+Input: root = [5,3,8,2,4,7,1]
+
+Output: 5
+
+Explanation:
+
+The leaf nodes with values 2, 4, 7, and 1 are dominant.
+The node with value 8 is dominant because its value is the maximum value in its subtree [8, 7, 1].
+Thus, the answer is 5.
+
+approach:-
+
+class Solution {
+public:
+   int count=0;
+    int postorder(TreeNode* root){
+        if(root==NULL) return 0;
+        int left=postorder(root->left);
+        int right=postorder(root->right);
+        // if(!root->left && !root->right){
+        //     count++;
+        // }
+        int maxx=max(left,right);
+        if(root->val>=maxx){
+            count++;
+        }
+        return max(root->val,maxx);
+    }
+    int countDominantNodes(TreeNode* root) {
+        postorder(root);
+        return count;
+    }
+};

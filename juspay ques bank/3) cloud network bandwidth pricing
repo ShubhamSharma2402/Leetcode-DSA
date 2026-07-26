@@ -1,0 +1,58 @@
+Cloud Network Bandwidth Pricing
+Background:
+In a cloud network, an infinite number of data centers are set up globally. Each data center is assigned a unique positive integer starting from 1. The cloud network has direct, bidirectional data channels between:
+
+Data center i and data center 2i.
+Data center i and data center 2i+1.
+There is always a unique shortest path between any two data centers. Initially, data transfer between any two data centers is free. However, due to network optimization, the cloud provider occasionally imposes bandwidth fees on certain data channels. The network provider will make several updates in the fees based on upcoming events.
+
+There are two types of events:
+
+Fee Update: The cloud provider updates the bandwidth fee for all data channels along the shortest path between data centers a and b by adding a fee of x units.
+Data Transfer: A customer needs to transfer data from one data center a to another data center b. The transfer always follows the shortest path. You need to calculate the total cost incurred for this data transfer.
+
+
+
+
+code:-  
+
+class Solution {
+public:
+    long long solve(int q, vector<vector<long long>>& a) {
+        unordered_map<long long, long long> cost;
+        long long total = 0;
+
+        for (auto &query : a) {
+            int type = query[0];
+            long long u = query[1], v = query[2], x = query[3];
+
+            if (type == 1) {
+                // Update
+                while (u != v) {
+                    if (u > v) {
+                        cost[u] += x;
+                        u /= 2;
+                    } else {
+                        cost[v] += x;
+                        v /= 2;
+                    }
+                }
+            } else {
+                // Query
+                long long curr = 0;
+                while (u != v) {
+                    if (u > v) {
+                        curr += cost[u];
+                        u /= 2;
+                    } else {
+                        curr += cost[v];
+                        v /= 2;
+                    }
+                }
+                total += curr;
+            }
+        }
+
+        return total;
+    }
+};

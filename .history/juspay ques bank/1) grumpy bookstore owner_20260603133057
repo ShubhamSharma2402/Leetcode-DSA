@@ -1,0 +1,38 @@
+leetcode:- 1052
+
+🧠 Problem Idea
+customers[i] → number of customers at minute i
+grumpy[i] → 1 if owner is grumpy (customers unhappy), 0 if calm
+You can choose a window of size X minutes to suppress grumpiness
+
+👉 Find max satisfied customers
+
+code:-
+
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int notgrumpy=0;
+        int k=minutes;
+        int n=customers.size();
+        for(int i=0;i<n;i++){
+            if(grumpy[i]==0){
+                notgrumpy+=customers[i];
+            }
+        }
+        int satis=0;
+        int ans=0;
+        for(int i=0;i<n;i++){
+            if(grumpy[i]==1){
+             satis+=customers[i];
+            }
+            if(i>=k-1){
+              ans=max(ans,satis);
+              if(grumpy[i-(k-1)]==1){
+                satis-=customers[i-(k-1)];
+              }
+            }
+        }
+        return notgrumpy+ans;
+    }
+};

@@ -1,0 +1,104 @@
+Road Network Breakdown
+🔍 Problem Description
+The city’s road network is represented as an undirected graph with n intersections (nodes) and m roads (edges). Certain roads are critical — if any one of them is removed, the city’s network will become disconnected (i.e., at least one pair of intersections will no longer be reachable from one another).
+
+Your task is to identify and list all such critical roads (bridges) in the network.
+
+📥 Input Format
+n m
+u1 v1
+u2 v2
+...
+um vm
+First line: two integers n (number of nodes), m (number of edges).
+Next m lines: each contains two integers ui and vi representing a bidirectional road between intersection ui and vi.
+Note: Nodes are numbered from 0 to n-1.
+
+📤 Output Format
+Print all critical roads, one per line, in the form:
+
+u v
+Where (u, v) is a bridge. The order of edges or nodes in each pair does not matter. If there are no bridges, print nothing.
+
+📌 Constraints
+1 ≤ n ≤ 10^5
+0 ≤ m ≤ 10^5
+0 ≤ ui, vi < n
+There are no parallel edges or self-loops.
+🧪 Sample Test Case 1
+Input
+
+5 5
+0 1
+1 2
+2 0
+1 3
+3 4
+Output
+
+3 4
+1 3
+Removing either (3-4) or (1-3) disconnects the network.
+
+
+code:-
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    int timer = 0;
+
+    void dfs(int u, int parent,
+             vector<vector<int>>& adj,
+             vector<int>& disc,
+             vector<int>& low,
+             vector<vector<int>>& bridges,
+             vector<int>& vis) {
+
+        vis[u] = 1;
+        disc[u] = low[u] = timer++;
+
+        for (int v : adj[u]) {
+
+            if (v == parent) continue;
+
+            if (!vis[v]) {
+                dfs(v, u, adj, disc, low, bridges, vis);
+
+                low[u] = min(low[u], low[v]);
+
+                // Bridge condition
+                if (low[v] > disc[u]) {
+                    bridges.push_back({u, v});
+                }
+            }
+            else {
+                // back edge
+                low[u] = min(low[u], disc[v]);
+            }
+        }
+    }
+
+    vector<vector<int>> findBridges(int n, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(n);
+
+        for (auto &e : edges) {
+            adj[e[0]].push_back(e[1]);
+            adj[e[1]].push_back(e[0]);
+        }
+
+        vector<int> disc(n, -1), low(n, -1), vis(n, 0);
+        vector<vector<int>> bridges;
+
+        for (int i = 0; i < n; i++) {
+            if (!vis[i]) {
+                dfs(i, -1, adj, disc, low, bridges, vis);
+            }
+        }
+
+        return bridges;
+    }
+};

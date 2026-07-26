@@ -38,23 +38,3 @@ public:
       return ans;
     }
 };
-
-
-leetcode:- 589. N-ary Tree Preorder Traversal
-
-class Solution {
-public:
-vector<int>ans;
-    void preorderr(Node* root){
-        if(root==NULL) return;
-        ans.push_back(root->val);
-
-        for(Node* child: root->children){
-            preorderr(child);
-        }
-    }
-    vector<int> preorder(Node* root) {
-        preorderr(root);
-        return ans;
-    }
-};

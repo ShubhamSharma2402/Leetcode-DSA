@@ -1,0 +1,26 @@
+
+
+approach:-
+
+class Solution {
+public:
+    
+    string largestNumber(vector<int>& nums) {
+        vector<string>ans;
+        for(auto it:nums){
+            ans.push_back(to_string(it));
+        }
+
+        sort(ans.begin(),ans.end(),[](const auto &a,const auto &b){
+            return a+b<b+a;
+        });
+
+        if(ans[0]=="0") return "0";
+
+        string result="";
+        for(auto it: ans){
+            result+=it;
+        }
+      return result;
+    }
+};

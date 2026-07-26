@@ -1,0 +1,52 @@
+
+
+ques:- Given the root of a binary tree, return the XOR of all leaf nodes.
+
+📌 Leaf Node:
+
+A node with:
+
+left == NULL && right == NULL
+
+
+approach:-
+
+1) recursive:-
+
+int solve(TreeNode* root) {
+    if (root == NULL) return 0;
+
+    // If leaf node
+    if (root->left == NULL && root->right == NULL) {
+        return root->val;
+    }
+
+    // XOR of left and right subtree
+    return solve(root->left) ^ solve(root->right);
+}
+
+
+2) iterative:-
+
+int xorLeaf(TreeNode* root) {
+    if (!root) return 0;
+
+    stack<TreeNode*> st;
+    st.push(root);
+
+    int ans = 0;
+
+    while (!st.empty()) {
+        TreeNode* node = st.top();
+        st.pop();
+
+        if (!node->left && !node->right) {
+            ans ^= node->val;
+        }
+
+        if (node->left) st.push(node->left);
+        if (node->right) st.push(node->right);
+    }
+
+    return ans;
+}

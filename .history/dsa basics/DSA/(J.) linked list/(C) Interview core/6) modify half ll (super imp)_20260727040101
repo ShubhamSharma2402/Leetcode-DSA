@@ -1,0 +1,59 @@
+ques:-
+
+Given the head of a singly linked list of integers, modify the list such that:
+
+For the first half of the list, update each node’s value as:
+
+new_value = (value of corresponding node from the end) - (current node value)
+The second half of the list remains unchanged
+If the list has an odd number of nodes, the middle node remains unchanged
+🔹 Definition of “corresponding node from the end”
+1st node ↔ last node
+2nd node ↔ second last node
+
+
+approach:-
+
+ListNode* giveans(ListNode*head){
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+ListNode* slow=head;
+ListNode* fast=head;
+while(fast!=NULL && fast->next!=NULL && fast->next->next!=NULL){
+    slow=slow->next;
+    fast=fast->next->next;
+}
+
+ListNode* prev=NULL;
+ListNode* curr=slow->next;
+// ListNode* addd=slow->next;
+slow->next=NULL; //imp
+
+while(curr!=NULL){
+    ListNode* next=curr->next;
+    curr->next=prev;
+    prev=curr;
+    curr=next;
+}
+ListNode* first=head;
+ListNode* second=prev;
+
+while(second!=NULL){
+    first->val=second->val-first->val;
+    second=second->next;
+    first=first->next;
+}
+
+curr=prev;
+prev=NULL;
+while(curr!=NULL){
+    ListNode* next=curr->next;
+    curr->next=prev;
+    prev=curr;
+    curr=next;
+}
+slow->next=prev;
+
+return head;
+}

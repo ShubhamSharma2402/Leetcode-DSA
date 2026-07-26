@@ -1,0 +1,41 @@
+leetcode 1081 Smallest Subsequence of Distinct Characters
+
+ques:-
+Given a string s, return the lexicographically smallest subsequence of s that contains all the distinct characters of s exactly once. 
+
+Example 1:
+
+Input: s = "bcabc"
+Output: "abc"
+Example 2:
+
+Input: s = "cbacdcbc"
+Output: "acdb"
+
+approach:-
+
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+        unordered_map<char,int>mpp;
+        for(int i=0;i<s.size();i++){
+            mpp[s[i]]=i;
+        }
+
+        string result="";
+        unordered_set<char>visited;
+      
+        for(int i=0;i<s.size();i++){
+            if(visited.count(s[i])){
+                continue;
+            }
+            while(!result.empty() && s[i]<result.back() && i<mpp[result.back()]){
+                visited.erase(result.back());
+                result.pop_back();
+            }
+            visited.insert(s[i]);
+            result.push_back(s[i]);
+        }
+        return result;
+    }
+};

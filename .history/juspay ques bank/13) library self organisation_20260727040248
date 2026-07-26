@@ -1,0 +1,32 @@
+code:-
+
+int solve(vector<int>& a, vector<int>& q) {
+    list<int> dll;
+    unordered_map<int, list<int>::iterator> pos;
+
+    for (int x : a) {
+        dll.push_back(x);
+        auto it = dll.end();
+        --it;
+        pos[x] = it;
+    }
+
+    int cost = 0;
+
+    for (int x : q) {
+        int dist = 0;
+
+        for (auto it = dll.begin(); it != dll.end(); it++) {
+            if (*it == x) break;
+            dist++;
+        }
+
+        cost += dist + 1;
+
+        dll.erase(pos[x]);
+        dll.push_front(x);
+        pos[x] = dll.begin();
+    }
+
+    return cost;
+}

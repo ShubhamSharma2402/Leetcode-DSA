@@ -1,0 +1,72 @@
+Leetcode:- 179
+
+Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.
+Since the result may be very large, so you need to return a string instead of an integer.
+
+Example 1:
+
+Input: nums = [10,2]
+Output: "210"
+
+
+problem:-
+
+❌ Issue 1: Comparator inside class
+bool cmp(string a ,string b)
+
+👉 This won’t work with sort as written, because:
+
+Member functions need an object (this)
+sort expects a static or external function
+
+approach:-
+
+1) using static
+
+class Solution {
+public:
+    static bool cmp(string a ,string b){
+        return a+b>b+a;
+    }
+    string largestNumber(vector<int>& nums) {
+        vector<string>ans;
+        for(auto it:nums){
+            ans.push_back(to_string(it));
+        }
+
+        sort(ans.begin(),ans.end(),cmp);
+
+        if(ans[0]=="0") return "0";
+
+        string result="";
+        for(auto it: ans){
+            result+=it;
+        }
+      return result;
+    }
+};
+
+2) using lambda function (prefer this)-
+
+class Solution {
+public:
+    
+    string largestNumber(vector<int>& nums) {
+        vector<string>ans;
+        for(auto it:nums){
+            ans.push_back(to_string(it));
+        }
+
+        sort(ans.begin(),ans.end(),[](const auto &a,const auto &b){
+            return a+b>b+a;
+        });
+
+        if(ans[0]=="0") return "0";
+
+        string result="";
+        for(auto it: ans){
+            result+=it;
+        }
+      return result;
+    }
+};

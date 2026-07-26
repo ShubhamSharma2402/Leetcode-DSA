@@ -1,0 +1,101 @@
+Corporate Reconstruction
+💼 Problem Description
+A company has multiple subsidiaries organized in a hierarchical structure. Over time, subsidiaries merge with each other, forming new entities. Each merger results in two subsidiaries becoming part of the same parent group.
+
+You're given a list of such mergers as pairs (A, B), which means subsidiary B is merged into A. After all the mergers, your task is to determine the top-level subsidiaries, i.e., subsidiaries that do not report to any other and act as the root of their merged group.
+
+🔢 Input Format
+The first line contains an integer n, the number of merger operations.
+The next n lines each contain two strings A and B, denoting that subsidiary B is merged into subsidiary A.
+📤 Output Format
+Print all top-level subsidiaries (representatives of each group) in lexicographical order, each separated by space.
+📌 Constraints
+1 ≤ n ≤ 10⁴
+All subsidiary names are strings of uppercase letters (1 to 10 characters)
+Subsidiary names are case-sensitive and unique
+🧪 Sample Input 1
+5
+A B
+B C
+D E
+F G
+E F
+✅ Sample Output 1
+A D
+🧪 Sample Input 2
+3
+X Y
+A B
+Y Z
+✅ Sample Output 2
+A X
+🧠 Approach
+We will use Disjoint Set Union (Union-Find) data structure to keep track of mergers:
+
+Each subsidiary starts as its own parent.
+
+For every merge (A, B):
+
+Find parent of A → parentA
+Find parent of B → parentB
+Set parent[parentB] = parentA to merge B into A’s group
+Finally, find the unique root parents for all subsidiaries.
+
+We'll use path compression in find() for optimization.
+
+
+
+
+code:-
+
+
+class Solution {
+    unordered_map<string, string> parent;
+
+    string find(string x) {
+        if (parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    void unite(string a, string b) {
+        string pa = find(a);
+        string pb = find(b);
+
+        if (pa == pb) return;
+
+        // B merges into A (A becomes parent)
+        parent[pb] = pa;
+    }
+
+public:
+    vector<string> corporateReconstruction(vector<vector<string>>& mergers) {
+
+        // Step 1: initialize DSU
+        for (auto &m : mergers) {
+            string a = m[0];
+            string b = m[1];
+
+            if (!parent.count(a)) parent[a] = a;
+            if (!parent.count(b)) parent[b] = b;
+        }
+
+        // Step 2: process merges
+        for (auto &m : mergers) {
+            unite(m[0], m[1]);
+        }
+
+        // Step 3: collect roots
+        vector<string> roots;
+
+        for (auto &it : parent) {
+            string node = it.first;
+            if (find(node) == node) {
+                roots.push_back(node);
+            }
+        }
+
+        sort(roots.begin(), roots.end());
+
+        return roots;
+    }
+};

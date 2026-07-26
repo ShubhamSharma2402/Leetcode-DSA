@@ -1,0 +1,15 @@
+🧩 PATTERN 2 — Connected Components
+
+📌 When you see:
+“number of groups”
+“clusters”
+“separate networks”
+
+🧠 Topics:
+DFS/BFS on each unvisited node
+Component counting
+
+🔥 Questions:
+LC 547 Number of Provinces
+LC 323 — Connected Components
+LC 841 — Keys and Rooms
