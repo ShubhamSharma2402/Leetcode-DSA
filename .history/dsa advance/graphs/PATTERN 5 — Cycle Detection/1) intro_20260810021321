@@ -1,0 +1,10 @@
+🧩 PATTERN 5 — Cycle Detection
+📌 When you see:
+Detect loop
+Graph contains cycle
+Dependency cycle
+🧠 Topics:
+DFS/BFS
+Parent tracking
+Recursion stack
+Path visited array

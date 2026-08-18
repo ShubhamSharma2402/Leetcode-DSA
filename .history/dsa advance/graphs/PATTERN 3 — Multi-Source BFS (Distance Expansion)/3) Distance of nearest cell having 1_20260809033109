@@ -1,0 +1,64 @@
+gfg:- Distance of nearest cell having 1
+
+
+Ques:-
+
+Distance of nearest cell having 1
+Solved
+Difficulty: MediumAccuracy: 47.7%Submissions: 127K+Points: 4Average Time: 20m
+Given a binary grid[][], where each cell contains either 0 or 1, find the distance of the nearest 1 for every cell in the grid.
+The distance between two cells (i1, j1)  and (i2, j2) is calculated as |i1 - i2| + |j1 - j2|. 
+You need to return a matrix of the same size, where each cell (i, j) contains the minimum distance from grid[i][j] to the nearest cell having value 1.
+
+Note: It is guaranteed that there is at least one cell with value 1 in the grid.
+
+Examples
+
+Input: grid[][] = [[0, 1, 1, 0], 
+                [1, 1, 0, 0], 
+                [0, 0, 1, 1]]
+Output: [[1, 0, 0, 1], 
+        [0, 0, 1, 1], 
+        [1, 1, 0, 0]]
+
+
+approach:-
+
+class Solution {
+  public:
+    vector<vector<int>> nearest(vector<vector<int>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        vector<vector<int>> grid1(n,vector<int>(m,INT_MAX));
+        queue<pair<int,int>> q;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1){
+                    q.push({i,j});
+                    grid1[i][j]=0;
+                }
+            }
+        }
+        vector<pair<int,int>> dir={{1,0},{-1,0},{0,1},{0,-1}};
+        while(!q.empty()){
+            int size=q.size();
+            while(size--){
+               auto[r,c]=q.front();
+               q.pop();
+               
+               for(auto[dr,dc]: dir){
+                   int nr=r+dr;
+                   int nc=c+dc;
+                   
+                   if(nr>=0 && nc>=0 && nr<n && nc<m && grid1[nr][nc]==INT_MAX){
+                       grid1[nr][nc]=grid1[r][c]+1;
+                       q.push({nr,nc});
+                   }
+               }
+            }
+        }
+        return grid1;
+    }
+};
+

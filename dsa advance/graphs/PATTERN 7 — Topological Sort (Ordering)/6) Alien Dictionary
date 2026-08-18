@@ -1,0 +1,113 @@
+gfg:-  Alien Dictionary
+
+ques:-
+
+An alien language uses the lowercase English alphabet, but the order of its letters is unknown. You are given an array of
+ strings words[] that is claimed to be sorted lexicographically according to the rules of the alien language.
+
+Determine the order of the letters in the alien alphabet. If a valid ordering exists, return a string containing all unique 
+letters in lexicographical order according to the alien language. Otherwise, return an empty string.
+
+If a string s1 is lexicographically smaller than a string s2, and the first position at which they differ contains letter a in
+ s1 and letter b in s2, then a must appear before b in the alien alphabet.
+
+Note: The driver code prints true if the returned order is valid; otherwise, it prints false.
+
+Examples:
+
+Input: words[] = ["baa", "abcd", "abca", "cab", "cad"]
+Output: true
+Explanation: A possible correct order of letters in the alien dictionary is "bdac".
+The pair "baa" and "abcd" suggests 'b' appears before 'a' in the alien dictionary.
+The pair "abcd" and "abca" suggests 'd' appears before 'a' in the alien dictionary.
+The pair "abca" and "cab" suggests 'a' appears before 'c' in the alien dictionary.
+The pair "cab" and "cad" suggests 'b' appears before 'd' in the alien dictionary.
+So, 'b' -> 'd' -> 'a' -> 'c' is a valid ordering.
+
+
+appoach:-
+
+
+class Solution {
+public:
+    string findOrder(vector<string> &words) {
+        int n = words.size();
+
+        // There are 26 lowercase English letters
+        vector<vector<int>> adj(26);
+        vector<int> indegree(26, 0);
+        vector<bool> present(26, false);
+
+        // Mark characters that actually appear
+        for (auto &word : words) {
+            for (char ch : word) {
+                present[ch - 'a'] = true;
+            }
+        }
+
+        // Build graph using adjacent words
+        for (int i = 0; i < n - 1; i++) {
+            string a = words[i];
+            string b = words[i + 1];
+
+            int len = min(a.size(), b.size());
+            bool found = false;
+
+            for (int j = 0; j < len; j++) {
+                if (a[j] != b[j]) {
+                    int u = a[j] - 'a';
+                    int v = b[j] - 'a';
+
+                    adj[u].push_back(v);
+                    indegree[v]++;
+
+                    found = true;
+                    break;
+                }
+            }
+
+            // Invalid case: "abc" comes before "ab"
+            if (!found && a.size() > b.size()) {
+                return "";
+            }
+        }
+
+        // Kahn's algorithm
+        queue<int> q;
+
+        for (int i = 0; i < 26; i++) {
+            if (present[i] && indegree[i] == 0) {
+                q.push(i);
+            }
+        }
+
+        string ans;
+
+        while (!q.empty()) {
+            int node = q.front();
+            q.pop();
+
+            ans += char(node + 'a');
+
+            for (int next : adj[node]) {
+                indegree[next]--;
+
+                if (indegree[next] == 0) {
+                    q.push(next);
+                }
+            }
+        }
+
+        // Cycle exists
+        int totalChars = 0;
+        for (bool x : present) {
+            if (x) totalChars++;
+        }
+
+        if (ans.size() != totalChars) {
+            return "";
+        }
+
+        return ans;
+    }
+};

@@ -1,0 +1,14 @@
+🧩 PATTERN 1 — Basic DFS / BFS Traversal
+📌 When you see:
+Explore nodes
+Check reachability
+Visit neighbors
+🧠 Topics:
+DFS recursion
+BFS queue
+Visited array
+Graph traversal
+🔥 Questions:
+LC 695 — Max Area of Island
+LC 733 — Flood Fill
+LC 1971 — Find if Path Exists

@@ -1,0 +1,54 @@
+leetcode:-  542. 01 Matrix
+
+ques:-
+
+Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.
+
+The distance between two cells sharing a common edge is 1.
+
+Example 1:
+
+Input: mat = [[0,0,0],[0,1,0],[0,0,0]]
+Output: [[0,0,0],[0,1,0],[0,0,0]]
+
+
+approach:-
+
+
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        int n=mat.size();
+        int m=mat[0].size();
+
+        queue<pair<int,int>>q;
+        vector<vector<int>>mat1(n,vector<int>(m,INT_MAX));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(mat[i][j]==0){
+                    mat1[i][j]=0;
+                    q.push({i,j});
+                }
+            }
+        }
+        vector<pair<int,int>>dir={{1,0},{-1,0},{0,1},{0,-1}};
+        while(!q.empty()){
+            int size=q.size();
+            while(size--){
+                auto[r,c]=q.front();
+                q.pop();
+
+                for(auto[dr,dc]:dir){
+                    int nr=r+dr;
+                    int nc=c+dc;
+
+                    if(nr>=0 && nc>= 0 && nr<n && nc<m && mat1[nr][nc]==INT_MAX){
+                        mat1[nr][nc]= mat1[r][c]+1;
+                        q.push({nr,nc});
+                    }
+                }
+            }
+        }
+        return mat1;
+    }
+};

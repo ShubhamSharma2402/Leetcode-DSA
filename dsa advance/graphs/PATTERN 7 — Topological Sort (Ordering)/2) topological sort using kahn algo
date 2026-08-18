@@ -1,0 +1,61 @@
+gfg:-  topological short
+
+
+ques:-
+
+Given a Directed Acyclic Graph (DAG) with V vertices numbered from 0 to V - 1 and E directed edges represented by a 2D array 
+edges[][], where edges[i] = [u, v] denotes a directed edge from vertex u to vertex v, return a topological ordering of all
+ the vertices.
+
+A topological ordering is a linear ordering of the vertices such that for every directed edge u -> v, vertex u appears 
+before vertex v in the ordering.
+
+Note: As there are multiple Topological orders possible, you may return any of them. If your returned Topological sort 
+is correct then the output will be true else false.
+
+approach:-
+
+
+class Solution {
+  public:
+  
+    vector<int> topoSort(int V, vector<vector<int>>& edges) {
+        vector<vector<int>> adj(V);
+        
+        vector<int>indegree(V,0);
+        for(auto e:edges){
+            adj[e[0]].push_back(e[1]);
+            indegree[e[1]]++;
+        }
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0){
+                q.push(i);
+            }
+        }
+        vector<int>ans;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            ans.push_back(node);
+            
+            for(auto it:adj[node]){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.push(it);
+                }
+            }
+        }
+        return ans;
+    }
+};
+
+
+if only adj was given, then how do we calculate indegree:-
+
+
+for(int i=0;i<V;i++){
+    for(auto it:adj[i]){
+        indegree[it]++;
+    }
+}

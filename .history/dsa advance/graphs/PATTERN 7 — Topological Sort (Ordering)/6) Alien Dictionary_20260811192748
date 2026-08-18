@@ -1,0 +1,48 @@
+gfg:-  Alien Dictionary
+
+ques:-
+
+An alien language uses the lowercase English alphabet, but the order of its letters is unknown. You are given an array of
+ strings words[] that is claimed to be sorted lexicographically according to the rules of the alien language.
+
+Determine the order of the letters in the alien alphabet. If a valid ordering exists, return a string containing all unique 
+letters in lexicographical order according to the alien language. Otherwise, return an empty string.
+
+If a string s1 is lexicographically smaller than a string s2, and the first position at which they differ contains letter a in
+ s1 and letter b in s2, then a must appear before b in the alien alphabet.
+
+Note: The driver code prints true if the returned order is valid; otherwise, it prints false.
+
+Examples:
+
+Input: words[] = ["baa", "abcd", "abca", "cab", "cad"]
+Output: true
+Explanation: A possible correct order of letters in the alien dictionary is "bdac".
+The pair "baa" and "abcd" suggests 'b' appears before 'a' in the alien dictionary.
+The pair "abcd" and "abca" suggests 'd' appears before 'a' in the alien dictionary.
+The pair "abca" and "cab" suggests 'a' appears before 'c' in the alien dictionary.
+The pair "cab" and "cad" suggests 'b' appears before 'd' in the alien dictionary.
+So, 'b' -> 'd' -> 'a' -> 'c' is a valid ordering.
+
+
+appoach:-
+
+
+An alien language uses the lowercase English alphabet, but the order of its letters is unknown. You are given an array of strings words[] that is claimed to be sorted lexicographically according to the rules of the alien language.
+
+Determine the order of the letters in the alien alphabet. If a valid ordering exists, return a string containing all unique letters in lexicographical order according to the alien language. Otherwise, return an empty string.
+
+If a string s1 is lexicographically smaller than a string s2, and the first position at which they differ contains letter a in s1 and letter b in s2, then a must appear before b in the alien alphabet.
+
+Note: The driver code prints true if the returned order is valid; otherwise, it prints false.
+
+Examples:
+
+Input: words[] = ["baa", "abcd", "abca", "cab", "cad"]
+Output: true
+Explanation: A possible correct order of letters in the alien dictionary is "bdac".
+The pair "baa" and "abcd" suggests 'b' appears before 'a' in the alien dictionary.
+The pair "abcd" and "abca" suggests 'd' appears before 'a' in the alien dictionary.
+The pair "abca" and "cab" suggests 'a' appears before 'c' in the alien dictionary.
+The pair "cab" and "cad" suggests 'b' appears before 'd' in the alien dictionary.
+So, 'b' -> 'd' -> 'a' -> 'c' is a valid ordering.

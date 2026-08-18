@@ -1,0 +1,37 @@
+🧩 PATTERN 2 — Connected Components
+
+📌 When you see:
+“number of groups”
+“clusters”
+“separate networks”
+
+🧠 Topics:
+DFS/BFS on each unvisited node
+Component counting
+
+🔥 Questions:
+LC 547 Number of Provinces
+LC 323 — Connected Components
+LC 841 — Keys and Rooms
+
+set<vector<pair<int,int>>> distinctShapes;
+
+Think of it as:
+
+set
+ ↓
+automatically compares shapes
+ ↓
+same shape → one copy
+different shape → separate entry
+
+Whereas unordered_set would need:
+
+unordered_set
+      ↓
+needs hash(vector<pair<int,int>>)
+      ↓
+you must write that hash
+
+Rule of thumb:
+For competitive programming, if your object is something like vector<pair<int,int>>, set is often the easiest choice unless you specifically want unordered_set and are comfortable writing a custom hash.

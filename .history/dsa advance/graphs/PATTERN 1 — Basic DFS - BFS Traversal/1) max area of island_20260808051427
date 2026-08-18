@@ -1,0 +1,43 @@
+leetcode:- 695. Max Area of Island
+
+ques:-
+
+You are given an m x n binary matrix grid. An island is a group of 1's (representing land) connected 4-directionally (horizontal or vertical.) You may assume all four edges of the grid are surrounded by water.
+
+The area of an island is the number of cells with a value 1 in the island.
+Return the maximum area of an island in grid. If there is no island, return 0.
+
+approach:-
+
+class Solution {
+public:
+int n,m;
+int ans=0;
+int count;
+ void dfs(vector<vector<int>>& grid, int r, int c){
+    if(r<0 || c<0 || r>=n || c>=m || grid[r][c]==0){
+        return;
+    }
+    grid[r][c]=0;
+     count++;
+    dfs(grid,r+1,c);
+    dfs(grid,r-1,c);
+    dfs(grid,r,c+1);
+    dfs(grid,r,c-1);
+ }
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        if(grid.empty()) return 0;
+       n=grid.size();
+       m=grid[0].size();
+      for(int i=0;i<n;i++){
+        for(int j=0;j<m;j++){
+            count=0;
+            if(grid[i][j]==1){
+                dfs(grid,i,j);
+                 ans=max(ans,count);
+            }
+        }
+      }  
+      return ans;
+    }
+};

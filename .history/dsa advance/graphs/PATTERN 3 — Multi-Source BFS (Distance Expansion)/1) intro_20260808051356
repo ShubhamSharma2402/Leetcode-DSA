@@ -1,0 +1,28 @@
+🧩 PATTERN 3 — Multi-Source BFS (Distance Expansion)
+📌 When you see:
+Minimum distance from nearest source
+Spread over time
+Multiple starting points
+🧠 Topics:
+BFS levels
+Queue with multiple sources
+Distance tracking
+🔥 Questions:
+LC 994 — Rotting Oranges
+LC 286 — Walls and Gates
+LC 542 — 01 Matrix
+
+Important Pattern
+
+Whenever you see words like:
+
+"nearest"
+"minimum distance"
+"closest"
+"spread"
+"time taken"
+"steps required"
+
+Think:
+
+Can I start BFS from all starting points together?

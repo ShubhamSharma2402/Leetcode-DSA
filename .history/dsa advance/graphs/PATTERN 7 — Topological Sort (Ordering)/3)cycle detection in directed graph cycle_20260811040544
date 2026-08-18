@@ -1,0 +1,51 @@
+gfg:-  Directed Graph Cycle
+
+ques:-
+
+Given a directed graph with V vertices numbered from 0 to V - 1 and E directed edges. The graph is represented using a 
+2D array edges[][] of size E, where each entry edges[i] = [u, v] denotes a directed edge from vertex u to vertex v.
+
+Check whether the graph contains any cycle. Return true if there exists at least one cycle in the graph; otherwise, return false.
+
+Examples:
+
+Input: V = 4, edges[][] = [[0, 1], [1, 2], [2, 0], [2, 3]]
+
+Output: true
+Explanation: The diagram clearly shows a cycle 0 -> 1 -> 2 -> 0
+
+
+approach:-
+
+
+class Solution {
+  public:
+    bool isCyclic(int V, vector<vector<int>> &edges) {
+        vector<vector<int>> adj(V);
+        vector<int>indegree(V,0);
+        for(auto e:edges){
+            adj[e[0]].push_back(e[1]);
+            indegree[e[1]]++;
+        }
+        queue<int>q;
+        for(int i=0;i<V;i++){
+            if(indegree[i]==0){
+                q.push(i);
+            }
+        }
+        vector<int>ans;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            
+            ans.push_back(node);
+            for(auto it:adj[node]){
+                indegree[it]--;
+                if(indegree[it]==0){
+                    q.push(it);
+                }
+            }
+        }
+        return ans.size()==V?false:true;
+    }
+};

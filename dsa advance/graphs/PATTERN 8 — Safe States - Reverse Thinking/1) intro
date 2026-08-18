@@ -1,0 +1,10 @@
+🧩 PATTERN 8 — Safe States / Reverse Thinking
+📌 When you see:
+Eventually safe nodes
+Nodes not leading to cycle
+🧠 Topics:
+Reverse graph
+Topological sort
+DFS states
+🔥 Questions:
+LC 802 — Find Eventual Safe States

@@ -1,0 +1,54 @@
+gfg:-  Number of Distinct Islands
+
+ques:-
+
+Given a grid grid[][] of size n × m, consisting of characters 'L' and 'W', where 'L' represents Land and 'W' represents Water, 
+find the number of distinct islands in the grid. An island is a group of one or more land cells connected horizontally or vertically.
+
+Two islands are considered distinct if their shapes are different.
+Two islands have the same shape if one can be translated to match the other exactly. Rotation and reflection are not allowed.
+Examples :
+
+Input: grid[][] = [['L', 'W', 'W'], ['W', 'W', 'L'], ['L', 'W', 'W']]
+Output: 1
+Explanation: The grid contains three islands. All these islands have the same shape (a 1 × 1 block of land), so they 
+are counted as a single distinct island.
+
+
+approach:-
+
+
+class Solution {
+  public:
+  int n,m;
+    void dfs(vector<vector<char>>& grid, int r, int c, vector<pair<int,int>>& shape, int sr,int sc){
+        
+        if(r<0 || c<0 || r>=n || c>=m || grid[r][c]=='W'){
+            return;
+        }
+        grid[r][c]='W';
+        shape.push_back({r-sr,c-sc});
+        dfs(grid,r+1,c,shape,sr,sc);
+        dfs(grid,r-1,c,shape,sr,sc);
+        dfs(grid,r,c+1,shape,sr,sc);
+        dfs(grid,r,c-1,shape,sr,sc);
+    }
+    int countDistinctIslands(vector<vector<char>>& grid) {
+        n=grid.size();
+        m=grid[0].size();
+        
+        set<vector<pair<int,int>>>uniqueshape;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='L'){
+                    vector<pair<int,int>>shape;
+                    dfs(grid,i,j,shape,i,j);
+                    uniqueshape.insert(shape);
+                }
+            }
+        }
+        return uniqueshape.size();
+    }
+};
+
+ 
