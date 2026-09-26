@@ -1,0 +1,41 @@
+additon of path sum that lies in rearrangement
+
+ques:-
+
+Traverse all root → leaf paths
+Maintain current path sum
+At leaf:
+Check if sum ∈ [low, high]
+If yes → add to answer
+
+solution :- 
+
+
+class Solution {
+public:
+    int sumInRange(TreeNode* root, int low, int high) {
+        if (!root) return 0;
+
+        int ans = 0;
+        stack<pair<TreeNode*, int>> st;
+        st.push({root, root->val});
+
+        while (!st.empty()) {
+            auto [node, sum] = st.top();
+            st.pop();
+
+            if (!node->left && !node->right) {
+                if (sum >= low && sum <= high)
+                    ans += sum;
+            }
+
+            if (node->left)
+                st.push({node->left, sum + node->left->val});
+
+            if (node->right)
+                st.push({node->right, sum + node->right->val});
+        }
+
+        return ans;
+    }
+};

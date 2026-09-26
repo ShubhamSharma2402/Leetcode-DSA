@@ -1,0 +1,51 @@
+gfg:- Sort a linked list of 0s, 1s and 2s
+
+question:-
+
+Given the head of a linked list where nodes can contain values 0s, 1s, and 2s only. Your task is to rearrange the list so that 
+all 0s appear at the beginning, followed by all 1s, and all 2s are placed at the end.
+
+exmaple:-
+Input: head = 1 → 2 → 2 → 1 → 2 → 0 → 2 → 2
+   
+Output: 0 → 1 → 1 → 2 → 2 → 2 → 2 → 2
+
+
+solution:-
+
+class Solution {
+public:
+    Node* segregate(Node* head) {
+        Node* dummy1 = new Node(0);
+        Node* one = dummy1;
+        Node* dummy2 = new Node(0);
+        Node* two = dummy2;
+        Node* dummy3 = new Node(0);
+        Node* three = dummy3;
+
+        Node* curr = head;
+        while (curr != NULL) {
+            Node* nextNode = curr->next;
+            curr->next = NULL;
+
+            if (curr->data == 0) {
+                one->next = curr;
+                one = one->next;
+            }
+            else if (curr->data == 1) {
+                two->next = curr;
+                two = two->next;
+            }
+            else {
+                three->next = curr;
+                three = three->next;
+            }
+
+            curr = nextNode;
+        }
+        one->next = (dummy2->next) ? dummy2->next : dummy3->next;
+        two->next = dummy3->next;
+
+        return dummy1->next;
+    }
+};
